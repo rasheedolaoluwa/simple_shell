@@ -1,18 +1,18 @@
 #include "shell.h"
 
 /**
- * input_buf - Buffers chained commands
- * @info: Parameter struct
- * @buf: Address of buffer
- * @len: Address of length variable
- * Return: Bytes read
+ * input_buf - Handles buffering of chained commands.
+ * @info: Contains shell state and parameters.
+ * @buf: Pointer to the command buffer.
+ * @len: Pointer to the length variable of the buffer.
+ * Return: Number of bytes read into the buffer.
  */
 ssize_t input_buf(info_t *info, char **buf, size_t *len)
 {
 	ssize_t r = 0;
 	size_t len_p = 0;
 
-	if (!*len) /* If nothing left in the buffer, fill it */
+	if (!*len) /* Refill buffer if empty */
 	{
 		free(*buf);
 		*buf = NULL;
@@ -40,51 +40,55 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 }
 
 /**
- * get_input - Gets a line minus the newline
- * @info: Parameter struct
- * Return: Bytes read
+ * get_input - Retrieves a line of input, excluding the newline.
+ * @info: Contains shell state and parameters.
+ * Return: Number of bytes in the retrieved line.
  */
 ssize_t get_input(info_t *info)
 {
-	static char *buf; /* The ';' command chain buffer */
+	static char *buf;
 	static size_t i, j, len;
 	ssize_t r = 0;
 	char **buf_p = &(info->arg), *p;
 
 	_putchar(BUF_FLUSH);
 	r = input_buf(info, &buf, &len);
-	if (r == -1) /* EOF */
+	if (r == -1) /* End of file */
 		return (-1);
-	if (len)	/* We have commands left in the chain buffer */
+	if (len) /* Process remaining commands in buffer */
 	{
-		j = i; /* Initialize new iterator to current buf position */
-		p = buf + i; /* Get pointer for return */
+		j = i;
+		p = buf + i;
+
 		check_chain(info, buf, &j, i, len);
-		while (j < len) /* Iterate to semicolon or end */
+		while (j < len)
 		{
 			if (is_chain(info, buf, &j))
 				break;
 			j++;
 		}
-		i = j + 1; /* Increment past nulled ';' */
-		if (i >= len) /* Reached end of buffer? */
+
+		i = j + 1;
+		if (i >= len)
 		{
-			i = len = 0; /* Reset position and length */
+			i = len = 0;
 			info->cmd_buf_type = CMD_NORM;
 		}
-		*buf_p = p; /* Pass back pointer to current command position */
-		return (_strlen(p)); /* Return length of current command */
+
+		*buf_p = p;
+		return (_strlen(p));
 	}
-	*buf_p = buf; /* Else not a chain, pass back buffer from _getline() */
-	return (r); /* Return length of buffer from _getline() */
+
+	*buf_p = buf;
+	return (r);
 }
 
 /**
- * read_buf - Reads a buffer
- * @info: Parameter struct
- * @buf: Buffer
- * @i: Size
- * Return: r
+ * read_buf - Reads data into a buffer.
+ * @info: Contains shell state and parameters.
+ * @buf: Buffer to read data into.
+ * @i: Size of the buffer.
+ * Return: Number of bytes read.
  */
 ssize_t read_buf(info_t *info, char *buf, size_t *i)
 {
@@ -99,11 +103,11 @@ ssize_t read_buf(info_t *info, char *buf, size_t *i)
 }
 
 /**
- * _getline - Gets the next line of input from STDIN
- * @info: Parameter struct
- * @ptr: Address of pointer to buffer, preallocated or NULL
- * @length: Size of preallocated ptr buffer if not NULL
- * Return: s
+ * _getline - Retrieves the next line of input from standard input.
+ * @info: Contains shell state and parameters.
+ * @ptr: Address of the buffer pointer.
+ * @length: Size of the preallocated buffer, if not NULL.
+ * Return: Number of characters in the line.
  */
 int _getline(info_t *info, char **ptr, size_t *length)
 {
@@ -126,13 +130,11 @@ int _getline(info_t *info, char **ptr, size_t *length)
 	c = _strchr(buf + i, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : len;
 	new_p = _realloc(p, s, s ? s + k : k + 1);
-	if (!new_p) /* MALLOC FAILURE! */
+	if (!new_p)
 		return (p ? free(p), -1 : -1);
 
 	if (s)
 		_strncat(new_p, buf + i, k - i);
-	else
-	  _strncpy(new_p, buf + i, k - i + 1);
 	else
 		_strncpy(new_p, buf + i, k - i + 1);
 
@@ -147,9 +149,9 @@ int _getline(info_t *info, char **ptr, size_t *length)
 }
 
 /**
- * sigintHandler - Blocks Ctrl-C
- * @sig_num: The signal number
- * Return: void
+ * sigintHandler - Handles the interrupt signal (Ctrl-C).
+ * @sig_num: The signal number (unused in this case).
+ * Return: Void.
  */
 void sigintHandler(__attribute__((unused))int sig_num)
 {
