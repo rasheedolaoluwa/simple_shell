@@ -1,63 +1,63 @@
 #include "shell.h"
 
 /**
- * _strncpy - Copies a string
- * @dest: The destination string to be copied to
- * @src: The source string
- * @n: The number of characters to be copied
+ * _srncpy - Copies a string
+ * @destin: The destination string to be copied to
+ * @source: The source string
+ * @num: The number of characters to be copied
  * Return: The destination string
  */
-char *_strncpy(char *dest, char *src, int n)
+char *_srncpy(char *destin, char *source, int num)
 {
-	int i, j;
-	char *start = dest;
+	int u, j;
+	char *start = destin;
 
-	for (i = 0; src[i] != '\0' && i < n - 1; i++)
-		dest[i] = src[i];
+	for (u = 0; source[u] != '\0' && u < n - 1; u++)
+		destin[u] = source[u];
 
-	for (j = i; j < n; j++)
-		dest[j] = '\0';
+	for (j = u; j < num; j++)
+		destin[j] = '\0';
 
 	return (start);
 }
 
 /**
- * _strncat - Concatenates two strings
- * @dest: The first string
- * @src: The second string
- * @n: The maximum number of bytes to use from src
+ * _srncat - Concatenates two strings
+ * @destin: The first string
+ * @srce: The second string
+ * @num: The maximum number of bytes to use from src
  * Return: The destination string
  */
-char *_strncat(char *dest, char *src, int n)
+char *_srncat(char *destin, char *srce, int num)
 {
-	int dest_len = 0, src_index = 0;
-	char *start = dest;
+	int destin_len = 0, srce_indx = 0;
+	char *start = destin;
 
-	while (dest[dest_len] != '\0')
-		dest_len++;
+	while (destin[destin_len] != '\0')
+		destin_len++;
 
-	for (src_index = 0; src[src_index] != '\0' && src_index < n; src_index++)
-		dest[dest_len++] = src[src_index];
+	for (srce_indx = 0; srce[srce_indx] != '\0' && srce_indx < num; srce_indx++)
+		destin[destin_len++] = srce[srce_indx];
 
-	dest[dest_len] = '\0';
+	destin[destin_len] = '\0';
 
 	return (start);
 }
 
 /**
- * _strchr - Locates a character in a string
- * @s: The string to be searched
- * @c: The character to look for
+ * _srchr - Locates a character in a string
+ * @str: The string to be searched
+ * @m: The character to look for
  * Return: Ptr to first occurrence of char c in the str s or NULL if not found
  */
-char *_strchr(char *s, char c)
+char *_srchr(char *str, char m)
 {
-	while (*s != '\0')
+	while (*str != '\0')
 	{
-		if (*s == c)
-			return (s);
-		s++;
+		if (*str == m)
+			return (m);
+		m++;
 	}
 
-	return (*s == c ? s : NULL);
+	return (*str == m ? str : NULL);
 }

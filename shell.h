@@ -123,10 +123,10 @@ char *find_path(info_t *, char *, char *);
 int loophsh(char **);
 
 /* errors_ss.c */
-void _eputs(char *);
-int _eputchar(char);
-int _putfd(char c, int fd);
-int _putsfd(char *str, int fd);
+void _epts(char *);
+int _eptchar(char);
+int _putfdes(char m, int fdes);
+int _putsfdes(char *string, int fdes);
 
 /* string_ss.c */
 int _strlen(char *);
@@ -141,9 +141,9 @@ void _puts(char *);
 int _putchar(char);
 
 /* exits_ss.c */
-char *_strncpy(char *, char *, int);
-char *_strncat(char *, char *, int);
-char *_strchr(char *, char);
+char *_srncpy(char *, char *, int);
+char *_srncat(char *, char *, int);
+char *_srchr(char *, char);
 
 /* tokenizer_ss.c */
 char **strtow(char *, char *);
@@ -158,26 +158,26 @@ void *_realloc(void *, unsigned int, unsigned int);
 int bfree(void **);
 
 /* atoi_ss.c */
-int interactive(info_t *);
-int is_delim(char, char *);
-int _isalpha(int);
-int _atoi(char *);
+int intractive(info_t *);
+int is_delm(char, char *);
+int _isapha(int);
+int _ati(char *);
 
 /* errors1_ss.c */
-int _erratoi(char *);
-void print_error(info_t *, char *);
-int print_d(int, int);
-char *convert_number(long int, int, int);
-void remove_comments(char *);
+int _errati(char *);
+void prnt_error(info_t *, char *);
+int prnt_d(int, int);
+char *covrt_number(long int, int, int);
+void rm_comments(char *);
 
 /* builtin_ss.c */
-int _myexit(info_t *);
-int _mycd(info_t *);
-int _myhelp(info_t *);
+int _ourexit(info_t *);
+int _ourcd(info_t *);
+int _ourhelp(info_t *);
 
 /* builtin1_ss.c */
-int _myhistory(info_t *);
-int _myalias(info_t *);
+int _ourhistory(info_t *);
+int _ouralias(info_t *);
 
 /* getline_ss.c */
 ssize_t get_input(info_t *);
@@ -190,11 +190,11 @@ void set_info(info_t *, char **);
 void free_info(info_t *, int);
 
 /* environ_ss.c */
-char *_getenv(info_t *, const char *);
-int _myenv(info_t *);
-int _mysetenv(info_t *);
-int _myunsetenv(info_t *);
-int populate_env_list(info_t *);
+char *_gtenv(info_t *, const char *);
+int _ourenv(info_t *);
+int _orsetenv(info_t *);
+int _ourunsetenv(info_t *);
+int pop_env_list(info_t *);
 
 /* getenv_ss.c */
 char **get_environ(info_t *);

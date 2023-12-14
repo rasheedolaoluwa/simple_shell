@@ -1,74 +1,74 @@
 #include "shell.h"
 
 /**
- * _myhistory - Displays shell command history with line numbers.
- * @info: Contains arguments and shell information.
+ * _ourhistory - Displays shell command history with line numbers.
+ * @inf: Contains arguments and shell information.
  * Return: 0 (success)
  */
-int _myhistory(info_t *info)
+int _ourhistory(info_t *inf)
 {
-	print_list(info->history);
+	print_list(inf->history);
 	return (0);
 }
 
 /**
- * unset_alias - Removes an alias if it exists.
- * @info: Shell information and arguments.
- * @str: Alias to be removed.
+ * unst_alias - Removes an alias if it exists.
+ * @inf: Shell information and arguments.
+ * @string: Alias to be removed.
  * Return: 0 (success), 1 (error)
  */
-int unset_alias(info_t *info, char *str)
+int unst_alias(info_t *inf, char *string)
 {
-	char *p, c;
-	int ret;
+	char *b, m;
+	int retu;
 
-	p = _strchr(str, '=');
-	if (!p)
+	b = _strchr(string, '=');
+	if (!b)
 		return (1);
-	c = *p;
-	*p = 0;
-	ret = delete_node_at_index(&(info->alias),
-		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
-	*p = c;
-	return (ret);
+	m = *b;
+	*b = 0;
+	retu = delete_node_at_index(&(inf->alias),
+		get_node_index(inf->alias, node_starts_with(inf->alias, string, -1)));
+	*b = m;
+	return (retu);
 }
 
 /**
- * set_alias - Sets or updates an alias.
- * @info: Shell information and arguments.
- * @str: Alias to be set or updated.
+ * st_alias - Sets or updates an alias.
+ * @inf: Shell information and arguments.
+ * @string: Alias to be set or updated.
  * Return: 0 (success), 1 (error)
  */
-int set_alias(info_t *info, char *str)
+int st_alias(info_t *inf, char *string)
 {
-	char *p;
+	char *b;
 
-	p = _strchr(str, '=');
-	if (!p)
+	b = _strchr(string, '=');
+	if (!b)
 		return (1);
-	if (!*++p)
-		return (unset_alias(info, str));
+	if (!*++b)
+		return (unst_alias(inf, string));
 
-	unset_alias(info, str);
-	return (add_node_end(&(info->alias), str, 0) == NULL);
+	unst_alias(inf, string);
+	return (add_node_end(&(inf->alias), string, 0) == NULL);
 }
 
 /**
- * print_alias - Prints a single alias.
- * @node: Alias node to be printed.
+ * prnt_alias - Prints a single alias.
+ * @nde: Alias node to be printed.
  * Return: 0 (success), 1 (error)
  */
-int print_alias(list_t *node)
+int prnt_alias(list_t *nde)
 {
-	char *p = NULL, *a = NULL;
+	char *b = NULL, *a = NULL;
 
-	if (node)
+	if (nde)
 	{
-		p = _strchr(node->str, '=');
-		for (a = node->str; a <= p; a++)
+		b = _strchr(nde->string, '=');
+		for (a = nde->string; a <= b; a++)
 			_putchar(*a);
 		_putchar('\'');
-		_puts(p + 1);
+		_puts(b + 1);
 		_puts("'\n");
 		return (0);
 	}
@@ -76,33 +76,33 @@ int print_alias(list_t *node)
 }
 
 /**
- * _myalias - Mimics the 'alias' command, printing or setting aliases.
- * @info: Shell information and arguments.
+ * _ouralias - Mimics the 'alias' command, printing or setting aliases.
+ * @inf: Shell information and arguments.
  * Return: 0 (success)
  */
-int _myalias(info_t *info)
+int _ouralias(info_t *inf)
 {
 	int i = 0;
-	char *p = NULL;
-	list_t *node = NULL;
+	char *b = NULL;
+	list_t *nde = NULL;
 
-	if (info->argc == 1)
+	if (inf->argc == 1)
 	{
-		node = info->alias;
-		while (node)
+		nde = inf->alias;
+		while (nde)
 		{
-			print_alias(node);
-			node = node->next;
+			prnt_alias(nde);
+			nde = nde->next;
 		}
 		return (0);
 	}
-	for (i = 1; info->argv[i]; i++)
+	for (i = 1; inf->argv[i]; i++)
 	{
-		p = _strchr(info->argv[i], '=');
-		if (p)
-			set_alias(info, info->argv[i]);
+		b = _strchr(inf->argv[i], '=');
+		if (b)
+			st_alias(inf, inf->argv[i]);
 		else
-			print_alias(node_starts_with(info->alias, info->argv[i], '='));
+			prnt_alias(node_starts_with(inf->alias, inf->argv[i], '='));
 	}
 
 	return (0);

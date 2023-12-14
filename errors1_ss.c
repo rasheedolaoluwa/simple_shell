@@ -1,95 +1,95 @@
 #include "shell.h"
 
 /**
- * _erratoi - Converts a string to an integer.
- * @s: String to convert.
+ * _errati - Converts a string to an integer.
+ * @str: String to convert.
  * Return: Converted integer, 0 if no numbers, -1 on error.
  */
-int _erratoi(char *s)
+int _errati(char *str)
 {
-	int i = 0;
+	int u = 0;
 	unsigned long int result = 0;
 
-	if (*s == '+')
-		s++;
-	for (i = 0;  s[i] != '\0'; i++)
+	if (*str == '+')
+		str++;
+	for (u = 0;  str[u] != '\0'; u++)
 	{
-		if (s[i] >= '0' && s[i] <= '9')
+		if (str[u] >= '0' && str[u] <= '9')
 		{
-			result *= 10;
-			result += (s[i] - '0');
-			if (result > INT_MAX)
+			res *= 10;
+			res += (str[u] - '0');
+			if (res > INT_MAX)
 				return (-1);
 		}
 		else
 			return (-1);
 	}
-	return (result);
+	return (res);
 }
 
 /**
- * print_error - Prints an error message.
- * @info: Info struct containing shell state.
- * @estr: Error message to print.
+ * prnt_error - Prints an error message.
+ * @inf: Info struct containing shell state.
+ * @est: Error message to print.
  * Return: Void.
  */
-void print_error(info_t *info, char *estr)
+void prnt_error(info_t *inf, char *est)
 {
-	_eputs(info->fname);
+	_eputs(inf->fname);
 	_eputs(": ");
-	print_d(info->line_count, STDERR_FILENO);
+	prnt_d(inf->line_count, STDERR_FILENO);
 	_eputs(": ");
-	_eputs(info->argv[0]);
+	_eputs(inf->argv[0]);
 	_eputs(": ");
-	_eputs(estr);
+	_eputs(est);
 }
 
 /**
- * print_d - Prints an integer in decimal format.
- * @input: Number to print.
- * @fd: File descriptor to write to.
+ * prnt_d - Prints an integer in decimal format.
+ * @inpt: Number to print.
+ * @fdes: File descriptor to write to.
  * Return: Number of characters printed.
  */
-int print_d(int input, int fd)
+int prnt_d(int inpt, int fdes)
 {
 	int (*__putchar)(char) = _putchar;
-	int i, count = 0;
+	int u, cnt = 0;
 	unsigned int _abs_, current;
 
-	if (fd == STDERR_FILENO)
+	if (fdes == STDERR_FILENO)
 		__putchar = _eputchar;
-	if (input < 0)
+	if (inpt < 0)
 	{
-		_abs_ = -input;
+		_abs_ = -inpt;
 		__putchar('-');
-		count++;
+		cnt++;
 	}
 	else
-		_abs_ = input;
+		_abs_ = inpt;
 	current = _abs_;
-	for (i = 1000000000; i > 1; i /= 10)
+	for (u = 1000000000; u > 1; u /= 10)
 	{
-		if (_abs_ / i)
+		if (_abs_ / u)
 		{
-			__putchar('0' + current / i);
-			count++;
+			__putchar('0' + current / u);
+			cnt++;
 		}
-		current %= i;
+		current %= u;
 	}
 	__putchar('0' + current);
-	count++;
+	cnt++;
 
-	return (count);
+	return (cnt);
 }
 
 /**
- * convert_number - Converts a number to a string in specified base.
+ * covrt_number - Converts a number to a string in specified base.
  * @num: Number to convert.
- * @base: Base for conversion.
+ * @bas: Base for conversion.
  * @flags: Flags to determine conversion behavior.
  * Return: Converted number as string.
  */
-char *convert_number(long int num, int base, int flags)
+char *covrt_number(long int num, int bas, int flags)
 {
 	static char *array;
 	static char buffer[50];
@@ -107,8 +107,8 @@ char *convert_number(long int num, int base, int flags)
 	*ptr = '\0';
 
 	do {
-		*--ptr = array[n % base];
-		n /= base;
+		*--ptr = array[n % bas];
+		n /= bas;
 	} while (n != 0);
 
 	if (sign)
@@ -117,18 +117,18 @@ char *convert_number(long int num, int base, int flags)
 }
 
 /**
- * remove_comments - Removes comments from a string.
- * @buf: String to remove comments from.
+ * rm_comments - Removes comments from a string.
+ * @buffer: String to remove comments from.
  * Return: Always 0.
  */
-void remove_comments(char *buf)
+void rm_comments(char *buffer)
 {
-	int i;
+	int u;
 
-	for (i = 0; buf[i] != '\0'; i++)
-		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
+	for (u = 0; buffer[u] != '\0'; u++)
+		if (buffer[u] == '#' && (!u || buffer[u - 1] == ' '))
 		{
-			buf[i] = '\0';
+			buffer[u] = '\0';
 			break;
 		}
 }
