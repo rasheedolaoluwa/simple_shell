@@ -8,9 +8,9 @@
  *
  * Return: 1 if a chain delimiter is found, 0 otherwise.
  */
-int is_chain(info_passed *info, char *buf, size_first *p)
+int is_chain(info_passed *info, char *buf, size_t *p)
 {
-	size_first a = *p;
+	size_t a = *p;
 
 	if (buf[a] == '|' && buf[a + 1] == '|')
 	{
@@ -46,10 +46,10 @@ int is_chain(info_passed *info, char *buf, size_first *p)
  *
  * Return: Void.
  */
-void check_chain(info_passed *info, char *buf, size_first *p,
-		 size_first i, size_first len)
+void check_chain(info_passed *info, char *buf, size_t *p,
+		 size_t i, size_t len)
 {
-	size_first a = *p;
+	size_t a = *p;
 
 	if (info->cmd_buf_type == CMD_AND)
 	{
