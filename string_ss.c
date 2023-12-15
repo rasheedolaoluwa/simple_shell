@@ -1,10 +1,10 @@
 #include "shell.h"
 
 /**
- * _strlen - Calculates the length of a string.
- * @s: Pointer to the string whose length is to be determined.
+ * _strlen - returns the length of a string
+ * @s: the string whose length to check
  *
- * Return: The length of the string as an integer.
+ * Return: integer length of string
  */
 int _strlen(char *s)
 {
@@ -19,11 +19,11 @@ int _strlen(char *s)
 }
 
 /**
- * _strcmp - Compares two strings lexicographically.
- * @a1: First string for comparison.
- * @a2: Second string for comparison.
+ * _strcmp - performs lexicogarphic comparison of two strings.
+ * @a1: the first string
+ * @a2: the second string
  *
- * Return: Negative if a1 < a2, positive if a1 > a2, zero if a1 == a2.
+ * Return: negative if a1 < a2, positive if a1 > a2, zero if a1 == a2
  */
 int _strcmp(char *a1, char *a2)
 {
@@ -34,15 +34,18 @@ int _strcmp(char *a1, char *a2)
 		a1++;
 		a2++;
 	}
-	return (*a1 == *a2) ? 0 : (*a1 < *a2 ? -1 : 1);
+	if (*a1 == *a2)
+		return (0);
+	else
+		return (*a1 < *a2 ? -1 : 1);
 }
 
 /**
- * hay_checker - Checks if a string starts with a specified substring.
- * @haystack: String to be searched.
- * @needle: Substring to find in the haystack.
+ * hay_checker - checks if needle starts with haystack
+ * @haystack: string to search
+ * @needle: the substring to find
  *
- * Return: Address of next character in haystack if needle is found, or NULL.
+ * Return: address of next char of haystack or NULL
  */
 char *hay_checker(const char *haystack, const char *needle)
 {
@@ -53,20 +56,20 @@ char *hay_checker(const char *haystack, const char *needle)
 }
 
 /**
- * _strcat - Concatenates two strings.
- * @dest: Destination buffer where the source string is appended.
- * @src: Source string to be appended to the destination.
+ * _strcat - concatenates two strings
+ * @dest: the destination buffer
+ * @src: the source buffer
  *
- * Return: Pointer to the destination buffer.
+ * Return: pointer to destination buffer
  */
 char *_strcat(char *dest, char *src)
 {
-	char *ret = dest;
+	char *dupli = dest;
 
 	while (*dest)
 		dest++;
 	while (*src)
 		*dest++ = *src++;
 	*dest = *src;
-	return (ret);
+	return (dupli);
 }
