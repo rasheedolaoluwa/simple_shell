@@ -79,7 +79,7 @@ int shell_unsetenv(info_passed *info)
 int populate_envlist(info_passed *info)
 {
 	list_str *node = NULL;
-	size_first i;
+	size_t i;
 
 	for (i = 0; environ[i]; i++)
 		add_node_end(&node, environ[i], 0);

@@ -25,7 +25,7 @@ char **get_env(info_passed *info)
 int unset_env(info_passed *info, char *var)
 {
 	list_str *node = info->env;
-	size_first i = 0;
+	size_t i = 0;
 	char *p;
 
 	if (!node || !var)
@@ -84,6 +84,6 @@ int set_env(info_passed *info, char *var, char *value)
 	}
 	add_node_end(&(info->env), buf, 0);
 	free(buf);
-	info’s->env_change = 1;
+	info->env_change = 1;
 	return (0);
 }
