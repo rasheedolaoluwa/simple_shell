@@ -181,8 +181,8 @@ int shell_history(info_passed *);
 int shell_alias(info_passed *);
 
 /* Getline functions */
-size_second get_input(info_passed *);
-int _getline(info_passed *, char **, size_first *);
+ssize_t get_input(info_passed *);
+int _getline(info_passed *, char **, size_t *);
 void signal_handler(int);
 
 /* Functions for information handling */
@@ -212,20 +212,20 @@ int order_history(info_passed *info);
 /* List manipulation functions */
 list_str *add_node(list_str **, const char *, int);
 list_str *add_node_end(list_str **, const char *, int);
-size_first print_list_str(const list_str *);
+size_t print_list_str(const list_str *);
 int delete_node(list_str **, unsigned int);
 void free_list(list_str **);
 
 /* More list functions */
-size_first list_len(const list_str *);
+size_t list_len(const list_str *);
 char **list_to_strings(list_str *);
-size_first print_list(const list_str *);
+size_t print_list(const list_str *);
 list_str *prefix_start(list_str *, char *, char);
-size_second get_index(list_str *, list_str *);
+ssize_t get_index(list_str *, list_str *);
 
 /* Variable handling functions */
-int is_chain(info_passed *, char *, size_first *);
-void check_chain(info_passed *, char *, size_first *, size_first, size_first);
+int is_chain(info_passed *, char *, size_t *);
+void check_chain(info_passed *, char *, size_t *, size_t, size_t);
 int replace_alias(info_passed *);
 int replace_vars(info_passed *);
 int replace_string(char **, char *);
