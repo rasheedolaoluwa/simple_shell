@@ -80,9 +80,9 @@ list_str *add_node_end(list_str **head, const char *str, int num)
  *
  * Return: Size of the list.
  */
-size_first print_list_str(const list_str *h)
+size_t print_list_str(const list_str *h)
 {
-	size_first i = 0;
+	size_t i = 0;
 
 	while (h)
 	{

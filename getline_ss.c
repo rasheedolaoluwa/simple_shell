@@ -8,10 +8,10 @@
  *
  * Return: Bytes read.
  */
-size_second input_buf(info_passed *info, char **buf, size_first *len)
+ssize_t input_buf(info_passed *info, char **buf, size_t *len)
 {
-	size_second a = 0;
-	size_first len_p = 0;
+	ssize_t a = 0;
+	size_t len_p = 0;
 
 	if (!*len) /* if nothing left in the buffer, fill it */
 	{
@@ -48,11 +48,11 @@ size_second input_buf(info_passed *info, char **buf, size_first *len)
  *
  * Return: Bytes read.
  */
-size_second get_input(info_passed *info)
+ssize_t get_input(info_passed *info)
 {
 	static char *buf; /* the ';' command chain buffer */
-	static size_first i, a, len;
-	size_second b = 0;
+	static size_t i, a, len;
+	ssize_t b = 0;
 	char **buf_p = &(info->arg), *p;
 
 	_putchar(BUFFER_FLUSH);
@@ -95,9 +95,9 @@ size_second get_input(info_passed *info)
  *
  * Return: Number of bytes read.
  */
-size_second read_buf(info_passed *info, char *buf, size_first *i)
+ssize_t read_buf(info_passed *info, char *buf, size_t *i)
 {
-	size_second b = 0;
+	ssize_t b = 0;
 
 	if (*i)
 		return (0);
@@ -115,12 +115,12 @@ size_second read_buf(info_passed *info, char *buf, size_first *i)
  *
  * Return: Number of bytes in the line.
  */
-int _getline(info_passed *info, char **ptr, size_first *length)
+int _getline(info_passed *info, char **ptr, size_t *length)
 {
 	static char buf[READ_BUF_SIZE];
-	static size_first i, len;
-	size_first k;
-	size_second b = 0, s = 0;
+	static size_t i, len;
+	size_t k;
+	ssize_t b = 0, s = 0;
 	char *p = NULL, *new_p = NULL, *c;
 
 	p = *ptr;
