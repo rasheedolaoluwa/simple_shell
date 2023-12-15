@@ -9,7 +9,7 @@
  */
 int hshell(info_passed *info, char **av)
 {
-	size_second a = 0;
+	ssize_t a = 0;
 	int builtin_ret = 0;
 
 	while (a != -1 && builtin_ret != -2)
