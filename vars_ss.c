@@ -1,14 +1,12 @@
 #include "shell.h"
 
 /**
- * is_chain - Determines if the current character in a buffer signals a
- * command chain. This function checks for specific characters ('|', '&', ';')
- * to identify command chaining.
- * @info: Struct containing command execution information.
- * @buf: Buffer containing the command string.
- * @p: Pointer to the current position in the buffer.
+ * is_chain - Tests if the current character in a buffer is a chain delimiter.
+ * @info: The parameter struct containing command information.
+ * @buf: The character buffer representing the command.
+ * @p: Address of the current position in the buffer.
  *
- * Return: 1 if a chaining delimiter is found, 0 otherwise.
+ * Return: 1 if a chain delimiter is found, 0 otherwise.
  */
 int is_chain(info_passed *info, char *buf, size_first *p)
 {
@@ -26,9 +24,9 @@ int is_chain(info_passed *info, char *buf, size_first *p)
 		a++;
 		info->cmd_buf_type = CMD_AND;
 	}
-	else if (buf[a] == ';') /* Terminate the current command */
+	else if (buf[a] == ';') /* found end of this command */
 	{
-		buf[a] = 0; /* Replace semicolon with null */
+		buf[a] = 0; /* replace semicolon with null */
 		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
@@ -38,42 +36,46 @@ int is_chain(info_passed *info, char *buf, size_first *p)
 }
 
 /**
- * check_chain - Determines whether to continue command chaining based on
- * the last command's status. If the command chain type is 'AND' and the last
- * command failed, or if it's 'OR' and the last command succeeded, it stops
- * the chaining by terminating the buffer.
- * @info: Struct containing command execution information.
- * @buf: Buffer containing the command string.
- * @p: Pointer to the current position in the buffer.
- * @i: Start position of the current command in the buffer.
- * @len: Total length of the buffer.
+ * check_chain - Checks if chaining should
+ * continue based on last command status.
+ * @info: The parameter struct.
+ * @buf: The character buffer.
+ * @p: Address of current position in buf.
+ * @i: Starting position in buf.
+ * @len: Length of buf.
+ *
+ * Return: Void.
  */
-void check_chain(info_passed *info, char *buf, size_first *p, size_first i,
-	size_first len)
+void check_chain(info_passed *info, char *buf, size_first *p,
+		 size_first i, size_first len)
 {
 	size_first a = *p;
 
-	if (info->cmd_buf_type == CMD_AND && info->status)
+	if (info->cmd_buf_type == CMD_AND)
 	{
-		buf[i] = 0;
-		a = len;
+		if (info->status)
+		{
+			buf[i] = 0;
+			a = len;
+		}
 	}
-	else if (info->cmd_buf_type == CMD_OR && !info->status)
+	if (info->cmd_buf_type == CMD_OR)
 	{
-		buf[i] = 0;
-		a = len;
+		if (!info->status)
+		{
+			buf[i] = 0;
+			a = len;
+		}
 	}
 
 	*p = a;
 }
 
 /**
- * replace_alias - Substitutes any aliases in the command with their
- * respective values. Searches for aliases in the command arguments and
- * replaces them with their actual values.
- * @info: Struct containing command execution information.
+ * replace_alias - Replaces aliases in the tokenized string.
+ * @info: The parameter struct.
  *
- * Return: 1 if any alias is replaced, 0 if no aliases are found.
+ * Return: 1 if replaced, 0 otherwise.
  */
 int replace_alias(info_passed *info)
 {
@@ -99,12 +101,10 @@ int replace_alias(info_passed *info)
 }
 
 /**
- * replace_vars - Replaces any special variables in the command with their
- * values. Looks for variables like '$?' and '$$' in the command arguments and
- * substitutes them with their current values.
- * @info: Struct containing command execution information.
+ * replace_vars - Replaces variables in the tokenized string.
+ * @info: The parameter struct.
  *
- * Return: 1 if any variable is replaced, 0 otherwise.
+ * Return: 1 if replaced, 0 otherwise.
  */
 int replace_vars(info_passed *info)
 {
@@ -119,20 +119,18 @@ int replace_vars(info_passed *info)
 		if (!_strcmp(info->argv[i], "$?"))
 		{
 			replace_string(&(info->argv[i]),
-				_strdup(convert_number(info->status, 10, 0)));
+				       _strdup(convert_number(info->status, 10, 0)));
 			continue;
 		}
 		if (!_strcmp(info->argv[i], "$$"))
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(getpid(), 10, 0)));
+			replace_string(&(info->argv[i]), _strdup(convert_number(getpid(), 10, 0)));
 			continue;
 		}
 		node = prefix_start(info->env, &info->argv[i][1], '=');
 		if (node)
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(_strchr(node->str, '=') + 1));
+			replace_string(&(info->argv[i]), _strdup(_strchr(node->str, '=') + 1));
 			continue;
 		}
 		replace_string(&info->argv[i], _strdup(""));
@@ -141,12 +139,11 @@ int replace_vars(info_passed *info)
 }
 
 /**
- * replace_string - Replaces an old string with a new one in a given location.
- * This function is used for updating command arguments during processing.
- * @old: Address of the pointer to the old string.
- * @new: New string to replace with.
+ * replace_string - Replaces a string with a new one.
+ * @old: Address of the old string.
+ * @new: New string.
  *
- * Return: 1 if replacement is successful, 0 otherwise.
+ * Return: 1 if replaced, 0 otherwise.
  */
 int replace_string(char **old, char *new)
 {
